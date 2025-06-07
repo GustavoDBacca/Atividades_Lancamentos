@@ -19,8 +19,9 @@ public class Receitas_Despesas {
         
         ArrayList<Lancamentos> lista = new ArrayList<>();
 
+        // O tipo fica implícito pela classe chamada. Ex: se a classe for Receitas então o tipo também é;
         Receitas r = new Receitas("Salário", "Salário", 3000.00, LocalDate.parse("2025-06-10"));
-        Despesas d = new Despesas("compras", "Mercado", 450.00, LocalDate.parse("2025-06-03"));
+        Despesas d = new Despesas("Alimentos", "Mercado", 450.00, LocalDate.parse("2025-06-03"));
         
             lista.add(r);
             lista.add(d);
