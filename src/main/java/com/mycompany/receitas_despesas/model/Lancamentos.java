@@ -5,53 +5,34 @@
 package com.mycompany.receitas_despesas.model;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.time.LocalDate;
+
 
 /**
  *
  * @author T-Gamer
  */
-public class Lancamentos {
+public abstract class Lancamentos {
     protected String descricao;
     protected double valor;
-    protected String data;
-    protected ArrayList<Lancamentos> lancamentos = new ArrayList<>();
-    
+    protected LocalDate data;
+    protected String categoria;
 
-    public Lancamentos(String descricao, double valor, String data) {
+    public Lancamentos(String descricao, double valor, LocalDate data, String categoria) {
         setDescricao(descricao);
         setValor(valor);
         setData(data);
+        setCategoria(categoria);
     }
     
+    public abstract String getTipo(); 
+
     @Override
-    public String toString(){
-        return "Lancamento = {"
-                + "Descrição: '" + descricao + '\''
-                + ", valor: " + valor
-                + "data: '" + data + '\'' +
-                "}"; 
-    }
-    
-    
-    
-    public void valorSaldo(){
-        Saldo saldo = new Saldo();
-
-        for (Lancamentos l : lancamentos){
-            if (l instanceof Receitas){
-                saldo.Adicionar(l.getValor());
-            } else {
-                saldo.Subtrair(l.getValor());
-            }
-            System.out.println(l);
-        }
+    public String toString() {
+        return String.format("Lançamento [%s] - %s | %.2f | %s | %s",
+                getTipo(), descricao, valor, data, categoria);
     }
 
-    public ArrayList<Lancamentos> getLancamento(){
-        return lancamentos;
-    }
-    
     public String getDescricao() {
         return descricao;
     }
@@ -68,11 +49,21 @@ public class Lancamentos {
         this.valor = valor;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    
 }

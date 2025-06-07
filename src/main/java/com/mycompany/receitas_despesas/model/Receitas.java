@@ -5,6 +5,7 @@
 package com.mycompany.receitas_despesas.model;
 
 import static com.mycompany.receitas_despesas.model.TipoReceitas.SALARIO;
+import java.time.LocalDate;
 
 
 
@@ -15,29 +16,12 @@ import static com.mycompany.receitas_despesas.model.TipoReceitas.SALARIO;
 
 public class Receitas extends Lancamentos{
     
-    public Receitas(String descricao, double recebimentos, String data) {
-        super(descricao, recebimentos, data);
+    public Receitas(String tipo, String descricao, double recebimentos, LocalDate data) {
+        super(tipo, recebimentos, data, descricao);
     }
 
-    public TipoReceitas tipoReceitas(TipoReceitas tipoReceitas){
-        switch (tipoReceitas) {
-            case SALARIO:
-                
-                break;
-                
-            case DECIMO_TERCEIRO:
-                
-                break;
-                
-            case FERIAS:
-                
-                break;
-            case OUTRA_RECEITA:
-                
-                break;
-            default:
-                throw new AssertionError();
-        }
-        return null;
+    @Override
+    public String getTipo() {
+        return "receita";
     }
 }

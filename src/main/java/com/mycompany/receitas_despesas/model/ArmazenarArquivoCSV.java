@@ -12,18 +12,23 @@ import java.util.ArrayList;
  *
  * @author T-Gamer
  */
+/*
+* Está classe é unicamente para testar o armazenamento do arquivo.
+*/
+
 public class ArmazenarArquivoCSV {
     
     public static void ArmazenarInfos(ArrayList<Lancamentos> lancar, String caminho){
         try (FileWriter write = new FileWriter(caminho)){
             
-            write.write("descricao,valor,data\n");
+            write.write("descricao, valor, data, categoria\n");
             
             for(Lancamentos l : lancar){
-                write.write(String.format("%s,%.2f,%s\n",
+                write.append(String.format("%s,%.2f,%s, %s\n",
                     l.getDescricao(),
                     l.getValor(),
-                    l.getData()
+                    l.getData(),
+                    l.getCategoria()
                         ));
                 
             }
