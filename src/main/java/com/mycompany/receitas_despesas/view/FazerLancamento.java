@@ -54,8 +54,7 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         jLabel1.setText("Tipo de Lançamento:");
 
-        jCBTipo.setEditable(true);
-        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa"}));
         jCBTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBTipoActionPerformed(evt);
@@ -89,13 +88,13 @@ public class FazerLancamento extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jCBTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTFCategoria))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                         .addComponent(jTFValor, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jCBTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTFCategoria, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -186,6 +185,7 @@ public class FazerLancamento extends javax.swing.JFrame {
         String descricao = jTADesc.getText();
         String datas = jTData.getText();
         
+        //Mudando a data de String para Date
         LocalDate data = null;
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -195,6 +195,8 @@ public class FazerLancamento extends javax.swing.JFrame {
             return;
         }
         
+        
+        //Código para determinar qual objeto deve ser criado (Receita ou Despesa).
         Lancamentos lancamento;
         
         if (tipo.equals("Receita")){
@@ -208,6 +210,7 @@ public class FazerLancamento extends javax.swing.JFrame {
                 return;
         }
         
+        //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
     }//GEN-LAST:event_jBtLancarActionPerformed
 
