@@ -18,11 +18,12 @@ public abstract class Lancamentos {
     protected LocalDate data;
     protected String categoria;
 
-    public Lancamentos(String descricao, double valor, LocalDate data, String categoria) {
+    public Lancamentos(String categoria, double valor, LocalDate data, String descricao) {
+        setCategoria(categoria);
         setDescricao(descricao);
         setValor(valor);
         setData(data);
-        setCategoria(categoria);
+        
     }
     
     public abstract String getTipo(); 
@@ -30,9 +31,10 @@ public abstract class Lancamentos {
     @Override
     public String toString() {
         return String.format("Lançamento [%s] - %s | %.2f | %s | %s",
-                getTipo(), descricao, valor, data, categoria);
+                getTipo(),  categoria, valor, data, descricao);
     }
 
+    
     public String getDescricao() {
         return descricao;
     }

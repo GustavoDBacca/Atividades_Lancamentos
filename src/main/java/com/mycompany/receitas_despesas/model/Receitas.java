@@ -16,8 +16,8 @@ import java.time.LocalDate;
 
 public class Receitas extends Lancamentos{
     
-    public Receitas(String tipo, String descricao, double recebimentos, LocalDate data) {
-        super(tipo, recebimentos, data, descricao);
+    public Receitas(String categoria, String descricao, double valor, LocalDate data) {
+        super(categoria, valor, data, descricao);
     }
 
     @Override

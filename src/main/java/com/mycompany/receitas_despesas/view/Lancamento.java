@@ -9,7 +9,7 @@ package com.mycompany.receitas_despesas.view;
  * @author T-Gamer
  */
 public class Lancamento extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Lancamento
      */
@@ -26,21 +26,109 @@ public class Lancamento extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jBDtAtual = new javax.swing.JButton();
+        jBSemDt = new javax.swing.JButton();
+        jBLancamento = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jBConsultar = new javax.swing.JButton();
+
+        jLabel2.setText("jLabel2");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Lançamentos");
+
+        jLabel3.setText("Ver Lançamentos: ");
+
+        jBDtAtual.setText("Até Data Atual");
+        jBDtAtual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDtAtualActionPerformed(evt);
+            }
+        });
+
+        jBSemDt.setText("Todos");
+        jBSemDt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSemDtActionPerformed(evt);
+            }
+        });
+
+        jBLancamento.setText("Fazer Lançamento");
+        jBLancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBLancamentoActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Consultar Saldo:");
+
+        jBConsultar.setText("Consultar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBLancamento)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBDtAtual)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBSemDt))
+                            .addComponent(jBConsultar))))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jBDtAtual)
+                    .addComponent(jBSemDt))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jBConsultar))
+                .addGap(39, 39, 39)
+                .addComponent(jBLancamento)
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBDtAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDtAtualActionPerformed
+        LancamentosFeitos dialog = new LancamentosFeitos(this, true); // 'this' é o JFrame pai
+        dialog.setVisible(true); // Exibe o JDialog
+    }//GEN-LAST:event_jBDtAtualActionPerformed
+
+    private void jBSemDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSemDtActionPerformed
+        LancamentosFeitos dialog = new LancamentosFeitos(this, true); // 'this' é o JFrame pai
+        dialog.setVisible(true); // Exibe o JDialog
+    }//GEN-LAST:event_jBSemDtActionPerformed
+
+    private void jBLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLancamentoActionPerformed
+        FazerLancamento lancar = new FazerLancamento();
+        lancar.setVisible(true);
+        
+    }//GEN-LAST:event_jBLancamentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +166,13 @@ public class Lancamento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBConsultar;
+    private javax.swing.JButton jBDtAtual;
+    private javax.swing.JButton jBLancamento;
+    private javax.swing.JButton jBSemDt;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
