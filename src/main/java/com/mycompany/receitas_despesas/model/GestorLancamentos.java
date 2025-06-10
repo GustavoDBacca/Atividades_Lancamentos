@@ -4,6 +4,7 @@
  */
 package com.mycompany.receitas_despesas.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -11,14 +12,29 @@ import java.util.ArrayList;
  * @author T-Gamer
  */
 public class GestorLancamentos {
-    private ArrayList<Lancamentos> lista = new ArrayList<>();
+    private static final ArrayList<Lancamentos> lista = new ArrayList<>();
 
-    public void adicionar(Lancamentos l) {
+    public static void adicionar(Lancamentos l) {
         lista.add(l);
     }
 
-    public ArrayList<Lancamentos> getTodos() {
+    //Retorna todos os lançamentos
+    public static ArrayList<Lancamentos> getTodos() {
         return lista;
+    }
+    
+    public static ArrayList<Lancamentos> getDatasPassadas(){
+        //Array criado para guardar os lancamentos filtrados pela data.
+        ArrayList<Lancamentos> filtrados = new ArrayList<>();        
+        LocalDate ateHoje = LocalDate.now();
+        
+        //Verifica se a data é anterior ao dia de hoje
+        for (Lancamentos l : lista){
+            if (l.getData().isBefore(ateHoje))
+                filtrados.add(l);
+        }
+
+        return filtrados;
     }
 
     public void salvarCSV(String caminho) {
@@ -26,10 +42,10 @@ public class GestorLancamentos {
     }
 
     public void carregarCSV(String caminho) {
-        // carrega do arquivo
+       
     }
 
-    public double calcularSaldo() {
+    public static double calcularSaldo() {
         double saldo = 0;
         for (Lancamentos l : lista) {
             if (l instanceof Receitas) {
@@ -38,6 +54,11 @@ public class GestorLancamentos {
                 saldo -= l.getValor();
             }
         }
+        return saldo;
+    }
+    
+    public static double getSaldo(){
+        double saldo = calcularSaldo();
         return saldo;
     }
 }

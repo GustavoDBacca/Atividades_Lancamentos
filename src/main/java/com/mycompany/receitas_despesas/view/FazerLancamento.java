@@ -5,8 +5,10 @@
 package com.mycompany.receitas_despesas.view;
 
 import com.mycompany.receitas_despesas.model.Despesas;
+import com.mycompany.receitas_despesas.model.GestorLancamentos;
 import com.mycompany.receitas_despesas.model.Lancamentos;
 import com.mycompany.receitas_despesas.model.Receitas;
+import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
@@ -35,7 +37,6 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jCBTipo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jTFCategoria = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -45,6 +46,7 @@ public class FazerLancamento extends javax.swing.JFrame {
         jTFValor = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTData = new javax.swing.JTextField();
+        jCBTipo = new javax.swing.JComboBox<>();
         jBtFechar = new javax.swing.JButton();
         jBtLancar = new javax.swing.JButton();
 
@@ -53,13 +55,6 @@ public class FazerLancamento extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fazer Lançamento"));
 
         jLabel1.setText("Tipo de Lançamento:");
-
-        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa"}));
-        jCBTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCBTipoActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Categoria:");
 
@@ -72,6 +67,8 @@ public class FazerLancamento extends javax.swing.JFrame {
         jLabel4.setText("Valor:");
 
         jLabel5.setText("data de expedição:");
+
+        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa", " " }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -92,19 +89,18 @@ public class FazerLancamento extends javax.swing.JFrame {
                         .addComponent(jTData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                         .addComponent(jTFValor, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jCBTipo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTFCategoria, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(jTFCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTFCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -174,10 +170,6 @@ public class FazerLancamento extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jBtFecharActionPerformed
 
-    private void jCBTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoActionPerformed
-        
-    }//GEN-LAST:event_jCBTipoActionPerformed
-
     private void jBtLancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLancarActionPerformed
         String tipo = jCBTipo.getSelectedItem().toString();
         String categoria = jTFCategoria.getText();
@@ -199,19 +191,26 @@ public class FazerLancamento extends javax.swing.JFrame {
         //Código para determinar qual objeto deve ser criado (Receita ou Despesa).
         Lancamentos lancamento;
         
-        if (tipo.equals("Receita")){
-            lancamento = new Receitas(descricao, categoria, valor, data);
-            
-        } else if (tipo.equals("Despesa")){
-            lancamento = new Despesas(descricao, categoria, valor, data);
-            
-        } else {
-            JOptionPane.showMessageDialog(this, "Tipo inválido.");
+        switch (tipo) {
+            case "Receita" -> lancamento = new Receitas(descricao, categoria, valor, data);
+            case "Despesa" -> lancamento = new Despesas(descricao, categoria, valor, data);
+            default -> {
+                JOptionPane.showMessageDialog(this, "Tipo inválido.");
                 return;
+            }
         }
         
+        
+        GestorLancamentos.adicionar(lancamento);
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
+        JOptionPane.showMessageDialog(this, "Saldo:" + GestorLancamentos.getSaldo());
+        
+        jTFCategoria.setText("");
+        jTFValor.setText("");
+        jTData.setText("");
+        jTADesc.setText("");
+        jCBTipo.setSelectedIndex(0);
     }//GEN-LAST:event_jBtLancarActionPerformed
 
     /**

@@ -4,6 +4,11 @@
  */
 package com.mycompany.receitas_despesas.view;
 
+import com.mycompany.receitas_despesas.model.GestorLancamentos;
+import com.mycompany.receitas_despesas.model.Lancamentos;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author T-Gamer
@@ -115,13 +120,28 @@ public class Lancamento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBDtAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDtAtualActionPerformed
-        LancamentosFeitos dialog = new LancamentosFeitos(this, true); // 'this' é o JFrame pai
-        dialog.setVisible(true); // Exibe o JDialog
+        LancamentosFeitos dialog = new LancamentosFeitos(this, true);
+        
+        //Pega todos os lançamentos feitos até o dia anterior!
+        ArrayList<Lancamentos> filtro = GestorLancamentos.getDatasPassadas();
+        
+        if (filtro.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum lançamento em datas passadas.");
+            return;
+        }
+        
+        dialog.exibirTexto(filtro.toString());
+        dialog.setVisible(true); 
     }//GEN-LAST:event_jBDtAtualActionPerformed
 
     private void jBSemDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSemDtActionPerformed
-        LancamentosFeitos dialog = new LancamentosFeitos(this, true); // 'this' é o JFrame pai
-        dialog.setVisible(true); // Exibe o JDialog
+        LancamentosFeitos dialog = new LancamentosFeitos(this, true);
+        
+        //Pega todos os lançamentos feitos!
+        ArrayList<Lancamentos> lancados = GestorLancamentos.getTodos();
+        dialog.exibirTexto(lancados.toString());
+        
+        dialog.setVisible(true); 
     }//GEN-LAST:event_jBSemDtActionPerformed
 
     private void jBLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLancamentoActionPerformed
