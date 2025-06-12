@@ -21,7 +21,7 @@ public class ArmazenarArquivoCSV {
     public static void ArmazenarInfos(ArrayList<Lancamentos> lancar, String caminho){
         try (FileWriter write = new FileWriter(caminho)){
             
-            write.write("tipo,descricao,valor,data,categoria\n");
+            write.write("descricao,valor,data,categoria\n");
             
             for(Lancamentos l : lancar){
                 write.append(String.format("[%s],%s,%.2f,%s,%s\n",
