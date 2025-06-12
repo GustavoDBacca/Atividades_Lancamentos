@@ -171,6 +171,8 @@ public class FazerLancamento extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtFecharActionPerformed
 
     private void jBtLancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLancarActionPerformed
+        
+        
         String tipo = jCBTipo.getSelectedItem().toString();
         String categoria = jTFCategoria.getText();
         double valor = Double.parseDouble(jTFValor.getText());
@@ -187,13 +189,20 @@ public class FazerLancamento extends javax.swing.JFrame {
             return;
         }
         
-        
         //Código para determinar qual objeto deve ser criado (Receita ou Despesa).
         Lancamentos lancamento;
         
         switch (tipo) {
             case "Receita" -> lancamento = new Receitas(descricao, categoria, valor, data);
-            case "Despesa" -> lancamento = new Despesas(descricao, categoria, valor, data);
+            
+            //verificação de saldo para lançar as despesas.
+            case "Despesa" -> {
+                if (GestorLancamentos.getSaldo() < valor) {
+                    JOptionPane.showMessageDialog(this, "Saldo Insuficiente para transferência!");
+                    return;
+                            }
+                lancamento = new Despesas(descricao, categoria, valor, data);
+            }
             default -> {
                 JOptionPane.showMessageDialog(this, "Tipo inválido.");
                 return;
@@ -242,6 +251,7 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new FazerLancamento().setVisible(true);
             }

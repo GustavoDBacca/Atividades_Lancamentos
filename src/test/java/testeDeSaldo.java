@@ -37,9 +37,9 @@ public class testeDeSaldo {
 
         for (Lancamentos l : lancamentos) {
             if (l instanceof Receitas) {
-                saldo.Adicionar(l.getValor());
+                saldo.adicionar(l.getValor());
             } else if (l instanceof Despesas) {
-                saldo.Subtrair(l.getValor());
+                saldo.subtrair(l.getValor());
             }
         }
 

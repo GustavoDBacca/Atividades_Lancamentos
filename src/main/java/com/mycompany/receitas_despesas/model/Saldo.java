@@ -4,6 +4,8 @@
  */
 package com.mycompany.receitas_despesas.model;
 
+
+
 /**
  *
  * @author T-Gamer
@@ -11,13 +13,18 @@ package com.mycompany.receitas_despesas.model;
 public class Saldo {
     protected double valor;
 
-    public void Adicionar(double valor) {
+    public void adicionar(double valor) {
         this.valor += valor;
     }
     
-    public void Subtrair(double valor) {
+    public boolean subtrair(double valor) {
+        if (valor > this.valor){
+            System.out.println("Saldo Insuficiente");
+            return false;
+            
+        }
         this.valor -= valor;
-        
+        return true;
     }
 
     public double getValor() {
