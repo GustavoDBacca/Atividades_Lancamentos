@@ -25,7 +25,7 @@ public class Receitas_Despesas {
         
             lista.add(r);
             lista.add(d);
-            
+        
             //lista.add(new Receitas("Salário", "Decimo Terceiro", 1050.00, LocalDate.parse("2025-01-13")));
 
             
@@ -47,7 +47,17 @@ public class Receitas_Despesas {
                 String[] valoresEntreVirgulas = linha.split(",");
 
                 // Exibe o conteúdo da linha
-                System.out.println(" " + valoresEntreVirgulas[0] + " " + valoresEntreVirgulas[1] + "," + valoresEntreVirgulas[2] + " " + valoresEntreVirgulas[3] + " " );
+                if (valoresEntreVirgulas.length == 5) {
+                    System.out.printf("Tipo: %s | Descrição: %s | Valor: %s | Data: %s | Categoria: %s%n",
+                    valoresEntreVirgulas[0],
+                    valoresEntreVirgulas[1],
+                    valoresEntreVirgulas[2],
+                    valoresEntreVirgulas[3],
+                    valoresEntreVirgulas[4]
+                    );
+                } else {
+                    System.out.println("Linha malformada: " + linha);
+                }                
             }
 
             scan.close();
@@ -55,6 +65,7 @@ public class Receitas_Despesas {
         } catch (FileNotFoundException e) {
             System.out.println("Arquivo não encontrado: " + e.getMessage());
         }
+        
     }
     
     
