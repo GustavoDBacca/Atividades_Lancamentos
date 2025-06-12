@@ -72,6 +72,11 @@ public class Lancamento extends javax.swing.JFrame {
         jLabel4.setText("Consultar Saldo:");
 
         jBConsultar.setText("Consultar");
+        jBConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,6 +154,18 @@ public class Lancamento extends javax.swing.JFrame {
         lancar.setVisible(true);
         
     }//GEN-LAST:event_jBLancamentoActionPerformed
+
+    private void jBConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConsultarActionPerformed
+        double saldoTotal = GestorLancamentos.getSaldo();
+        double saldoData = GestorLancamentos.getSaldoDataPassadas();
+
+        Saldo saldo = new Saldo(this, true);
+        
+        saldo.valorData(String.format("R$ %.2f", saldoData));
+        saldo.valorTotal(String.format("R$ %.2f", saldoTotal));
+        
+        saldo.setVisible(true);
+    }//GEN-LAST:event_jBConsultarActionPerformed
 
     /**
      * @param args the command line arguments

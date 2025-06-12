@@ -36,6 +36,20 @@ public class GestorLancamentos {
 
         return filtrados;
     }
+    
+    public static double getSaldoDataPassadas(){
+        
+        //fitro para pegar o valor do saldo com as datas de lançamentos passados
+        double totalDatasPassadas = 0;
+            for (Lancamentos l : getDatasPassadas()) {
+                if (l instanceof Receitas) {
+                    totalDatasPassadas += l.getValor();
+                } else {
+                    totalDatasPassadas -= l.getValor();
+                }
+            }
+        return totalDatasPassadas;
+    }
 
     public void salvarCSV(String caminho) {
         
