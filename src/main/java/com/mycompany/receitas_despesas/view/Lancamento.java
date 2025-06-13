@@ -135,7 +135,14 @@ public class Lancamento extends javax.swing.JFrame {
             return;
         }
         
-        dialog.exibirTexto(filtro.toString());
+        //StringBUilder para transformar os valores em String.
+        StringBuilder sb = new StringBuilder();
+            for (Lancamentos lanc : filtro) {
+                sb.append(lanc.toString()).append("\n"); 
+            }
+            dialog.exibirTexto(sb.toString());
+        
+        
         dialog.setVisible(true); 
     }//GEN-LAST:event_jBDtAtualActionPerformed
 
@@ -144,7 +151,13 @@ public class Lancamento extends javax.swing.JFrame {
         
         //Pega todos os lançamentos feitos!
         ArrayList<Lancamentos> lancados = GestorLancamentos.getTodos();
-        dialog.exibirTexto(lancados.toString());
+        
+        StringBuilder sb = new StringBuilder();
+        for (Lancamentos l : lancados){
+            sb.append(l.toString()).append("\n");
+        }
+        
+        dialog.exibirTexto(sb.toString());
         
         dialog.setVisible(true); 
     }//GEN-LAST:event_jBSemDtActionPerformed
