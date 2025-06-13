@@ -11,9 +11,15 @@ import com.mycompany.receitas_despesas.model.Receitas;
 import com.mycompany.receitas_despesas.model.TipoDespesas;
 import com.mycompany.receitas_despesas.model.TipoReceitas;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -22,6 +28,7 @@ import javax.swing.JOptionPane;
 public class FazerLancamento extends javax.swing.JFrame {
     
     String tipo;
+    private File arquivoCSV = null ;
     /**
      * Creates new form FazerLancamento
      */
@@ -71,6 +78,7 @@ public class FazerLancamento extends javax.swing.JFrame {
         jTData = new javax.swing.JTextField();
         jCBTipo = new javax.swing.JComboBox<>();
         jCBCategoria = new javax.swing.JComboBox<>();
+        jBtArquivo = new javax.swing.JButton();
         jBtFechar = new javax.swing.JButton();
         jBtLancar = new javax.swing.JButton();
 
@@ -101,6 +109,13 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         jCBCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jBtArquivo.setText("Escolher Caminho");
+        jBtArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtArquivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,11 +131,12 @@ public class FazerLancamento extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtArquivo)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                         .addComponent(jTFValor, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCBCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -143,15 +159,13 @@ public class FazerLancamento extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jTData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(28, 28, 28))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jBtArquivo)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jBtFechar.setText("Fechar");
@@ -187,11 +201,11 @@ public class FazerLancamento extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtFechar)
-                    .addComponent(jBtLancar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(jBtLancar)
+                    .addComponent(jBtFechar))
+                .addGap(42, 42, 42))
         );
 
         pack();
@@ -202,7 +216,7 @@ public class FazerLancamento extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtFecharActionPerformed
 
     private void jBtLancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLancarActionPerformed
-        
+            
         
         String tipo = jCBTipo.getSelectedItem().toString();
         String categoria = jCBCategoria.getSelectedItem().toString();
@@ -241,17 +255,42 @@ public class FazerLancamento extends javax.swing.JFrame {
             }
         }
         
-        
         GestorLancamentos.adicionar(lancamento);
+        if (arquivoCSV != null) {
+        boolean arquivoNovo = !arquivoCSV.exists(); 
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoCSV, true))) {
+        
+            if (arquivoNovo) {
+                writer.println("Tipo;Descricao;Valor;Data;Categoria");
+            }
+
+            writer.printf("%s;%s;%.2f;%s;%s\n",
+            lancamento.getTipo().replace(",", " "),
+            lancamento.getDescricao().replace(",", " "),
+            lancamento.getValor(),
+            lancamento.getData(),
+            lancamento.getCategoria().replace(",", " ")
+            );
+
+        
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar no arquivo: " + e.getMessage());
+        }
+        } else {
+            JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
+            return;
+        }
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
-        JOptionPane.showMessageDialog(this, "Saldo:" + GestorLancamentos.getSaldo());
+        
         
         jCBCategoria.setSelectedIndex(0);
         jTFValor.setText("");
         jTData.setText("");
         jTADesc.setText("");
         jCBTipo.setSelectedIndex(0);
+
     }//GEN-LAST:event_jBtLancarActionPerformed
 
     private void jCBTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoActionPerformed
@@ -260,6 +299,26 @@ public class FazerLancamento extends javax.swing.JFrame {
             jCBCategoria.getSelectedItem().toString();
         }
     }//GEN-LAST:event_jCBTipoActionPerformed
+
+    private void jBtArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtArquivoActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Escolha onde salvar o arquivo");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivos CSV", "csv"));
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File arquivoEscolhido = fileChooser.getSelectedFile();
+
+
+        if (!arquivoEscolhido.getName().toLowerCase().endsWith(".csv")) {
+            arquivoEscolhido = new File(arquivoEscolhido.getParentFile(), arquivoEscolhido.getName() + ".csv");
+        }
+
+        arquivoCSV = arquivoEscolhido;
+        JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + arquivoCSV.getAbsolutePath());
+    }
+    }//GEN-LAST:event_jBtArquivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,6 +357,7 @@ public class FazerLancamento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtArquivo;
     private javax.swing.JButton jBtFechar;
     private javax.swing.JButton jBtLancar;
     private javax.swing.JComboBox<String> jCBCategoria;
