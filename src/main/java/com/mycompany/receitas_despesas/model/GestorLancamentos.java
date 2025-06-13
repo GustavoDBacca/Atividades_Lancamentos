@@ -54,15 +54,15 @@ public class GestorLancamentos {
         return totalDatasPassadas;
     }
 
-    public static void salvarCSV(String caminho) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(caminho))) {
-            writer.println("Tipo,Descricao,Valor,Data,Categoria");
-            for (Lancamentos l : lista) {
-                String descricao = l.getDescricao().replace(",", "");
-                String categoria = l.getCategoria().replace(",", "");
-                writer.printf("%s,%s,%.2f,%s,%s%n",
-                    l.getTipo(), descricao, l.getValor(), l.getData(), categoria);
-            }
+    public static void salvarCSV(Lancamentos lancamento,File caminho) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(caminho, true))) {
+            writer.printf("%s;%s;%.2f;%s;%s\n",
+            lancamento.getTipo().replace(",", " "),
+            lancamento.getDescricao().replace(",", " "),
+            lancamento.getValor(),
+            lancamento.getData(), 
+            lancamento.getCategoria().replace(",", " ")
+            );
             System.out.println("Arquivo CSV salvo com sucesso!");
         } catch (IOException e) {
             System.err.println("Erro ao salvar CSV: " + e.getMessage());

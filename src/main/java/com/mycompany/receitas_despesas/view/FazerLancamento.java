@@ -28,7 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FazerLancamento extends javax.swing.JFrame {
     
     String tipo;
-    private File arquivoCSV = null ;
+    private File arquivoCSV = null;
     /**
      * Creates new form FazerLancamento
      */
@@ -251,30 +251,24 @@ public class FazerLancamento extends javax.swing.JFrame {
         
         GestorLancamentos.adicionar(lancamento);
         if (arquivoCSV != null) {
-        boolean arquivoNovo = !arquivoCSV.exists(); 
+        boolean arquivoNovo = !arquivoCSV.exists();
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoCSV, true))) {
-        
-            if (arquivoNovo) {
+    // Cria o arquivo com cabeçalho se ele ainda não existir
+        if (arquivoNovo) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoCSV, true))) {
                 writer.println("Tipo;Descricao;Valor;Data;Categoria");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao criar cabeçalho do CSV: " + e.getMessage());
+                return;
             }
+    }   
 
-            writer.printf("%s;%s;%.2f;%s;%s\n",
-            lancamento.getTipo().replace(",", " "),
-            lancamento.getDescricao().replace(",", " "),
-            lancamento.getValor(),
-            lancamento.getData(),
-            lancamento.getCategoria().replace(",", " ")
-            );
-
-        
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar no arquivo: " + e.getMessage());
-        }
-        } else {
-            JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
-            return;
-        }
+        // Usa o método reutilizável para salvar o lançamento
+        GestorLancamentos.salvarCSV(lancamento, arquivoCSV);
+    } else {
+        JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
+        return;
+    }
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
         
