@@ -8,6 +8,8 @@ import com.mycompany.receitas_despesas.model.Despesas;
 import com.mycompany.receitas_despesas.model.GestorLancamentos;
 import com.mycompany.receitas_despesas.model.Lancamentos;
 import com.mycompany.receitas_despesas.model.Receitas;
+import com.mycompany.receitas_despesas.model.TipoDespesas;
+import com.mycompany.receitas_despesas.model.TipoReceitas;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +20,8 @@ import javax.swing.JOptionPane;
  * @author T-Gamer
  */
 public class FazerLancamento extends javax.swing.JFrame {
-
+    
+    String tipo;
     /**
      * Creates new form FazerLancamento
      */
@@ -26,6 +29,27 @@ public class FazerLancamento extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void atualizarCategorias() {
+    tipo = jCBTipo.getSelectedItem().toString();
+    jCBCategoria.removeAllItems();
+
+    switch (tipo) {
+        case "Receita" -> {
+            for (TipoReceitas r : TipoReceitas.values()) {
+                jCBCategoria.addItem(r.name());
+            }
+        }
+        case "Despesa" -> {
+                for (TipoDespesas r : TipoDespesas.values()) {
+                    jCBCategoria.addItem(r.name());
+                }
+            }   
+        }
+
+        if (jCBCategoria.getItemCount() > 0) {
+            jCBCategoria.setSelectedIndex(0);
+        }
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +62,6 @@ public class FazerLancamento extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTFCategoria = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTADesc = new javax.swing.JTextArea();
@@ -47,6 +70,7 @@ public class FazerLancamento extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTData = new javax.swing.JTextField();
         jCBTipo = new javax.swing.JComboBox<>();
+        jCBCategoria = new javax.swing.JComboBox<>();
         jBtFechar = new javax.swing.JButton();
         jBtLancar = new javax.swing.JButton();
 
@@ -66,9 +90,16 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         jLabel4.setText("Valor:");
 
-        jLabel5.setText("Data de expedição:");
+        jLabel5.setText("data de expedição:");
 
         jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa", " " }));
+        jCBTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBTipoActionPerformed(evt);
+            }
+        });
+
+        jCBCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,8 +120,8 @@ public class FazerLancamento extends javax.swing.JFrame {
                         .addComponent(jTData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                         .addComponent(jTFValor, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -103,7 +134,7 @@ public class FazerLancamento extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTFCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -174,10 +205,11 @@ public class FazerLancamento extends javax.swing.JFrame {
         
         
         String tipo = jCBTipo.getSelectedItem().toString();
-        String categoria = jTFCategoria.getText();
+        String categoria = jCBCategoria.getSelectedItem().toString();
         double valor = Double.parseDouble(jTFValor.getText());
-        String descricao = jTADesc.getText();
+        
         String datas = jTData.getText();
+        String descricao = jTADesc.getText();
         
         //Mudando a data de String para Date
         LocalDate data = null;
@@ -193,15 +225,15 @@ public class FazerLancamento extends javax.swing.JFrame {
         Lancamentos lancamento;
         
         switch (tipo) {
-            case "Receita" -> lancamento = new Receitas(descricao, categoria, valor, data);
-            
+            case "Receita" -> lancamento = new Receitas(categoria, descricao, valor, data);
+                
             //verificação de saldo para lançar as despesas.
             case "Despesa" -> {
                 if (GestorLancamentos.getSaldo() < valor) {
                     JOptionPane.showMessageDialog(this, "Saldo Insuficiente para transferência!");
                     return;
                             }
-                lancamento = new Despesas(descricao, categoria, valor, data);
+                lancamento = new Despesas(categoria, descricao, valor, data);
             }
             default -> {
                 JOptionPane.showMessageDialog(this, "Tipo inválido.");
@@ -215,12 +247,19 @@ public class FazerLancamento extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
         JOptionPane.showMessageDialog(this, "Saldo:" + GestorLancamentos.getSaldo());
         
-        jTFCategoria.setText("");
+        jCBCategoria.setSelectedIndex(0);
         jTFValor.setText("");
         jTData.setText("");
         jTADesc.setText("");
         jCBTipo.setSelectedIndex(0);
     }//GEN-LAST:event_jBtLancarActionPerformed
+
+    private void jCBTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoActionPerformed
+        atualizarCategorias();
+        if (jCBCategoria.getSelectedItem() != null) {
+            jCBCategoria.getSelectedItem().toString();
+        }
+    }//GEN-LAST:event_jCBTipoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,6 +300,7 @@ public class FazerLancamento extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtFechar;
     private javax.swing.JButton jBtLancar;
+    private javax.swing.JComboBox<String> jCBCategoria;
     private javax.swing.JComboBox<String> jCBTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -271,7 +311,6 @@ public class FazerLancamento extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTADesc;
     private javax.swing.JTextField jTData;
-    private javax.swing.JTextField jTFCategoria;
     private javax.swing.JTextField jTFValor;
     // End of variables declaration//GEN-END:variables
 }

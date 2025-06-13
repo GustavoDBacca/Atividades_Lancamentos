@@ -4,15 +4,8 @@
  */
 package com.mycompany.receitas_despesas.model;
 
-import static com.mycompany.receitas_despesas.model.TipoReceitas.SALARIO;
 import java.time.LocalDate;
 
-
-
-/**
- *
- * @author T-Gamer
- */
 
 public class Receitas extends Lancamentos{
     
