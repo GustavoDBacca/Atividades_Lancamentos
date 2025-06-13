@@ -4,8 +4,10 @@
  */
 package com.mycompany.receitas_despesas.model;
 
-
+import static com.mycompany.receitas_despesas.model.TipoReceitas.SALARIO;
 import java.time.LocalDate;
+
+
 
 /**
  *
@@ -13,7 +15,7 @@ import java.time.LocalDate;
  */
 
 public class Receitas extends Lancamentos{
-
+    
     public Receitas(String categoria, String descricao, double valor, LocalDate data) {
         super(categoria, valor, data, descricao);
     }
