@@ -30,7 +30,7 @@ public abstract class Lancamentos {
 
     @Override
     public String toString() {
-        return String.format("Lançamento [%s] - %s | %.2f | %s | %s",
+        return String.format("Lançamento [%s] - %s | %.2f | %s | %s\n",
                 getTipo(), categoria, valor, data, descricao);
     }
 
