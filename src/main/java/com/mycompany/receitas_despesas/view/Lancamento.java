@@ -151,6 +151,9 @@ public class Lancamento extends javax.swing.JFrame {
 
     private void jBLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLancamentoActionPerformed
         FazerLancamento lancar = new FazerLancamento();
+        
+        lancar.atualizarCategorias();
+        
         lancar.setVisible(true);
         
     }//GEN-LAST:event_jBLancamentoActionPerformed
