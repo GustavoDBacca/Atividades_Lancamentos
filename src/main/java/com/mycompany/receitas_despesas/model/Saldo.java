@@ -17,15 +17,10 @@ public class Saldo {
         this.valor += valor;
     }
     
-    public boolean subtrair(double valor) {
-        if (valor > this.valor){
-            System.out.println("Saldo Insuficiente");
-            return false;
-            
-        }
+    public void subtrair(double valor) {
         this.valor -= valor;
-        return true;
     }
+        
 
     public double getValor() {
         return valor;

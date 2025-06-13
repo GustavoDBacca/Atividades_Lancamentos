@@ -242,13 +242,7 @@ public class FazerLancamento extends javax.swing.JFrame {
             case "Receita" -> lancamento = new Receitas(categoria, descricao, valor, data);
                 
             //verificação de saldo para lançar as despesas.
-            case "Despesa" -> {
-                if (GestorLancamentos.getSaldo() < valor) {
-                    JOptionPane.showMessageDialog(this, "Saldo Insuficiente para transferência!");
-                    return;
-                            }
-                lancamento = new Despesas(categoria, descricao, valor, data);
-            }
+            case "Despesa" -> lancamento = new Despesas(categoria, descricao, valor, data);
             default -> {
                 JOptionPane.showMessageDialog(this, "Tipo inválido.");
                 return;
