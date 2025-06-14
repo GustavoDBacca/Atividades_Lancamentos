@@ -7,7 +7,8 @@ package com.mycompany.receitas_despesas.view;
 import com.mycompany.receitas_despesas.model.GestorLancamentos;
 import com.mycompany.receitas_despesas.model.Lancamentos;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -144,7 +145,7 @@ public class Lancamento extends javax.swing.JFrame {
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
 
         //Pega todos os lançamentos feitos até o dia anterior!
-        ArrayList<Lancamentos> filtro = GestorLancamentos.getDatasPassadas();
+        List<Lancamentos> filtro = GestorLancamentos.getDatasPassadas().stream().sorted(Comparator.comparing(Lancamentos::getData).reversed()).toList();
 
         if (filtro.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum lançamento em datas passadas.");
@@ -165,7 +166,7 @@ public class Lancamento extends javax.swing.JFrame {
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
 
         //Pega todos os lançamentos feitos!
-        ArrayList<Lancamentos> lancados = GestorLancamentos.getTodos();
+        List<Lancamentos> lancados = GestorLancamentos.getTodos().stream().sorted(Comparator.comparing(Lancamentos::getData).reversed()).toList();
 
         StringBuilder sb = new StringBuilder();
         for (Lancamentos l : lancados) {
