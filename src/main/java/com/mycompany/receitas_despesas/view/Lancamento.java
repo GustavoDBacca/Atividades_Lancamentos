@@ -6,15 +6,18 @@ package com.mycompany.receitas_despesas.view;
 
 import com.mycompany.receitas_despesas.model.GestorLancamentos;
 import com.mycompany.receitas_despesas.model.Lancamentos;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author T-Gamer
  */
 public class Lancamento extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Lancamento
      */
@@ -39,6 +42,7 @@ public class Lancamento extends javax.swing.JFrame {
         jBLancamento = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jBConsultar = new javax.swing.JButton();
+        jBtCarregarArquivo = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -78,6 +82,13 @@ public class Lancamento extends javax.swing.JFrame {
             }
         });
 
+        jBtCarregarArquivo.setText("Carregar arquivo");
+        jBtCarregarArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtCarregarArquivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,8 +110,11 @@ public class Lancamento extends javax.swing.JFrame {
                                 .addComponent(jBDtAtual)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBSemDt))
-                            .addComponent(jBConsultar))))
-                .addContainerGap(80, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBConsultar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBtCarregarArquivo)))))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +129,9 @@ public class Lancamento extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jBConsultar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBConsultar)
+                        .addComponent(jBtCarregarArquivo)))
                 .addGap(39, 39, 39)
                 .addComponent(jBLancamento)
                 .addContainerGap(82, Short.MAX_VALUE))
@@ -126,49 +142,48 @@ public class Lancamento extends javax.swing.JFrame {
 
     private void jBDtAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDtAtualActionPerformed
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
-        
+
         //Pega todos os lançamentos feitos até o dia anterior!
         ArrayList<Lancamentos> filtro = GestorLancamentos.getDatasPassadas();
-        
+
         if (filtro.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum lançamento em datas passadas.");
             return;
         }
-        
+
         //StringBUilder para transformar os valores em String.
         StringBuilder sb = new StringBuilder();
-            for (Lancamentos lanc : filtro) {
-                sb.append(lanc.toString()).append("\n"); 
-            }
-            dialog.exibirTexto(sb.toString());
-        
-        
-        dialog.setVisible(true); 
+        for (Lancamentos lanc : filtro) {
+            sb.append(lanc.toString()).append("\n");
+        }
+        dialog.exibirTexto(sb.toString());
+
+        dialog.setVisible(true);
     }//GEN-LAST:event_jBDtAtualActionPerformed
 
     private void jBSemDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSemDtActionPerformed
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
-        
+
         //Pega todos os lançamentos feitos!
         ArrayList<Lancamentos> lancados = GestorLancamentos.getTodos();
-        
+
         StringBuilder sb = new StringBuilder();
-        for (Lancamentos l : lancados){
+        for (Lancamentos l : lancados) {
             sb.append(l.toString()).append("\n");
         }
-        
+
         dialog.exibirTexto(sb.toString());
-        
-        dialog.setVisible(true); 
+
+        dialog.setVisible(true);
     }//GEN-LAST:event_jBSemDtActionPerformed
 
     private void jBLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLancamentoActionPerformed
         FazerLancamento lancar = new FazerLancamento();
-        
+
         lancar.atualizarCategorias();
-        
+
         lancar.setVisible(true);
-        
+
     }//GEN-LAST:event_jBLancamentoActionPerformed
 
     private void jBConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConsultarActionPerformed
@@ -176,12 +191,37 @@ public class Lancamento extends javax.swing.JFrame {
         double saldoData = GestorLancamentos.getSaldoDataPassadas();
 
         Saldo saldo = new Saldo(this, true);
-        
+
         saldo.valorData(String.format("R$ %.2f", saldoData));
         saldo.valorTotal(String.format("R$ %.2f", saldoTotal));
-        
+
         saldo.setVisible(true);
     }//GEN-LAST:event_jBConsultarActionPerformed
+
+    private void jBtCarregarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCarregarArquivoActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Escolha o arquivo CSV para carregar");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivos CSV", "csv"));
+
+        int resultado = fileChooser.showOpenDialog(this);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File arquivoSelecionado = fileChooser.getSelectedFile();
+            GestorLancamentos.carregarCSV(arquivoSelecionado);
+            JOptionPane.showMessageDialog(this, "Arquivo carregado: " + arquivoSelecionado.getAbsolutePath());
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhum arquivo selecionado.");
+        }
+        atualizarTextoLancamentosFeitos();
+    }//GEN-LAST:event_jBtCarregarArquivoActionPerformed
+
+    public void atualizarTextoLancamentosFeitos() {
+        LancamentosFeitos dialog = new LancamentosFeitos(this, true);
+        StringBuilder sb = new StringBuilder();
+        for (Lancamentos l : GestorLancamentos.getTodos()) {
+            sb.append(l.toString()).append("\n");
+        }
+        dialog.exibirTexto(sb.toString());
+    }
 
     /**
      * @param args the command line arguments
@@ -223,6 +263,7 @@ public class Lancamento extends javax.swing.JFrame {
     private javax.swing.JButton jBDtAtual;
     private javax.swing.JButton jBLancamento;
     private javax.swing.JButton jBSemDt;
+    private javax.swing.JButton jBtCarregarArquivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

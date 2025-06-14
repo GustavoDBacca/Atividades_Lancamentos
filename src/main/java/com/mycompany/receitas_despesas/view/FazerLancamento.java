@@ -26,37 +26,40 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author T-Gamer
  */
 public class FazerLancamento extends javax.swing.JFrame {
-    
+
     String tipo;
     private File arquivoCSV = null;
+
     /**
      * Creates new form FazerLancamento
      */
     public FazerLancamento() {
         initComponents();
+        atualizarCategorias();
     }
 
     public void atualizarCategorias() {
-    tipo = jCBTipo.getSelectedItem().toString();
-    jCBCategoria.removeAllItems();
+        tipo = jCBTipo.getSelectedItem().toString();
+        jCBCategoria.removeAllItems();
 
-    switch (tipo) {
-        case "Receita" -> {
-            for (TipoReceitas r : TipoReceitas.values()) {
-                jCBCategoria.addItem(r.name());
+        switch (tipo) {
+            case "Receita" -> {
+                for (TipoReceitas r : TipoReceitas.values()) {
+                    jCBCategoria.addItem(r.name());
+                }
             }
-        }
-        case "Despesa" -> {
+            case "Despesa" -> {
                 for (TipoDespesas r : TipoDespesas.values()) {
                     jCBCategoria.addItem(r.name());
                 }
-            }   
+            }
         }
 
         if (jCBCategoria.getItemCount() > 0) {
             jCBCategoria.setSelectedIndex(0);
         }
-    } 
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,63 +219,63 @@ public class FazerLancamento extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtFecharActionPerformed
 
     private void jBtLancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLancarActionPerformed
-            
-        
+
         String tipo = jCBTipo.getSelectedItem().toString();
         String categoria = jCBCategoria.getSelectedItem().toString();
         double valor = Double.parseDouble(jTFValor.getText());
-        
+
         String datas = jTData.getText();
         String descricao = jTADesc.getText();
-        
+
         //Mudando a data de String para Date
         LocalDate data = null;
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            data = LocalDate.parse(datas, format); 
+            data = LocalDate.parse(datas, format);
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(this, "Data inválida. Use o formato yyyy-MM-dd.");
+            JOptionPane.showMessageDialog(this, "Data inválida. Use o formato yyyy-MM-dd.");
             return;
         }
-        
+
         //Código para determinar qual objeto deve ser criado (Receita ou Despesa).
         Lancamentos lancamento;
-        
+
         switch (tipo) {
-            case "Receita" -> lancamento = new Receitas(categoria, descricao, valor, data);
-                
+            case "Receita" ->
+                lancamento = new Receitas(categoria, descricao, valor, data);
+
             //verificação de saldo para lançar as despesas.
-            case "Despesa" -> lancamento = new Despesas(categoria, descricao, valor, data);
+            case "Despesa" ->
+                lancamento = new Despesas(categoria, descricao, valor, data);
             default -> {
                 JOptionPane.showMessageDialog(this, "Tipo inválido.");
                 return;
             }
         }
-        
+
         GestorLancamentos.adicionar(lancamento);
         if (arquivoCSV != null) {
-        boolean arquivoNovo = !arquivoCSV.exists();
+            boolean arquivoNovo = !arquivoCSV.exists();
 
-    // Cria o arquivo com cabeçalho se ele ainda não existir
-        if (arquivoNovo) {
-            try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoCSV, true))) {
-                writer.println("Tipo;Descricao;Valor;Data;Categoria");
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Erro ao criar cabeçalho do CSV: " + e.getMessage());
-                return;
+            // Cria o arquivo com cabeçalho se ele ainda não existir
+            if (arquivoNovo) {
+                try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoCSV, true))) {
+                    writer.println("Tipo;Descricao;Valor;Data;Categoria");
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao criar cabeçalho do CSV: " + e.getMessage());
+                    return;
+                }
             }
-    }   
 
-        // Usa o método reutilizável para salvar o lançamento
-        GestorLancamentos.salvarCSV(lancamento, arquivoCSV);
-    } else {
-        JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
-        return;
-    }
+            // Usa o método reutilizável para salvar o lançamento
+            GestorLancamentos.salvarCSV(lancamento, arquivoCSV);
+        } else {
+            JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
+            return;
+        }
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
-        
-        
+
         jCBCategoria.setSelectedIndex(0);
         jTFValor.setText("");
         jTData.setText("");
@@ -298,14 +301,13 @@ public class FazerLancamento extends javax.swing.JFrame {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File arquivoEscolhido = fileChooser.getSelectedFile();
 
+            if (!arquivoEscolhido.getName().toLowerCase().endsWith(".csv")) {
+                arquivoEscolhido = new File(arquivoEscolhido.getParentFile(), arquivoEscolhido.getName() + ".csv");
+            }
 
-        if (!arquivoEscolhido.getName().toLowerCase().endsWith(".csv")) {
-            arquivoEscolhido = new File(arquivoEscolhido.getParentFile(), arquivoEscolhido.getName() + ".csv");
+            arquivoCSV = arquivoEscolhido;
+            JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + arquivoCSV.getAbsolutePath());
         }
-
-        arquivoCSV = arquivoEscolhido;
-        JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + arquivoCSV.getAbsolutePath());
-    }
     }//GEN-LAST:event_jBtArquivoActionPerformed
 
     /**
