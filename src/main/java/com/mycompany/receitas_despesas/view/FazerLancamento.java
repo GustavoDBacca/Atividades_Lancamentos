@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JFileChooser;
@@ -275,12 +276,17 @@ public class FazerLancamento extends javax.swing.JFrame {
         GestorLancamentos.adicionar(lancamento);
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
+        
+        DecimalFormat dec = new DecimalFormat("0.00");
+        JOptionPane.showMessageDialog(this, "Saldo: " + dec.format(GestorLancamentos.getSaldo()));
 
         jCBCategoria.setSelectedIndex(0);
         jTFValor.setText("");
         jTData.setText("");
         jTADesc.setText("");
         jCBTipo.setSelectedIndex(0);
+        
+        
 
     }//GEN-LAST:event_jBtLancarActionPerformed
 
