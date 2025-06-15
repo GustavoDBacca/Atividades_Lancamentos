@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class GestorLancamentos {
     
@@ -61,12 +61,14 @@ public class GestorLancamentos {
     }
 
     public static void salvarCSV(Lancamentos lancamento, File caminho) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
         try (PrintWriter writer = new PrintWriter(new FileWriter(caminho, true))) {
             writer.printf("%s;%s;%.2f;%s;%s\n",
                     lancamento.getTipo() != null ? lancamento.getTipo().replace(";", " ") : "",
                     lancamento.getDescricao() != null ? lancamento.getDescricao().replace(";", " ") : "",
                     lancamento.getValor(),
-                    lancamento.getData(),
+                    lancamento.getData().format(formatter),
                     lancamento.getCategoria() != null ? lancamento.getCategoria().replace(";", " ") : ""
             );
             System.out.println("Arquivo CSV salvo com sucesso!");
@@ -77,7 +79,7 @@ public class GestorLancamentos {
 
     public static void carregarCSV(File arquivo) {
         lista.clear();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try (Scanner scan = new Scanner(arquivo)) {
 
             if (scan.hasNextLine()) {

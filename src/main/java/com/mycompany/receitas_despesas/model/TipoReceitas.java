@@ -6,7 +6,7 @@ package com.mycompany.receitas_despesas.model;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public enum TipoReceitas {
     SALARIO, DECIMO_TERCEIRO, FERIAS, OUTRA_RECEITA;

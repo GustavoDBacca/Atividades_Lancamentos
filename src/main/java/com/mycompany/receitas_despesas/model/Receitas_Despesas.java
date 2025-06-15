@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class Receitas_Despesas {
 

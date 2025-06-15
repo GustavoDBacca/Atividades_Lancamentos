@@ -6,7 +6,7 @@ package com.mycompany.receitas_despesas.model;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public enum TipoDespesas {
     ALIMENTOS, EDUCACAO, ENTRETERIMENTO, RESIDENCIA, SAUDE, TRANSPORTE, OUTRA_DESPESA;

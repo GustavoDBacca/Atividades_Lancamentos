@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class Despesas extends Lancamentos{
     

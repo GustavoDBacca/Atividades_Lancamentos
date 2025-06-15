@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class LancamentosFeitos extends javax.swing.JDialog {
 

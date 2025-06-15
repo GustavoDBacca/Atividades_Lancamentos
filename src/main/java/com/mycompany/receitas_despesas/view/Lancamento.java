@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class Lancamento extends javax.swing.JFrame {
 
@@ -167,6 +167,11 @@ public class Lancamento extends javax.swing.JFrame {
 
         //Pega todos os lançamentos feitos!
         List<Lancamentos> lancados = GestorLancamentos.getTodos().stream().sorted(Comparator.comparing(Lancamentos::getData).reversed()).toList();
+        
+        if (lancados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum lançamento feito.");
+            return;
+        }
 
         StringBuilder sb = new StringBuilder();
         for (Lancamentos l : lancados) {

@@ -6,11 +6,12 @@ package com.mycompany.receitas_despesas.model;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public abstract class Lancamentos {
     protected String descricao;
@@ -30,8 +31,9 @@ public abstract class Lancamentos {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return String.format("[Lançamento [%s] - %s | %.2f | %s | %s]",
-                getTipo(), categoria, valor, data, descricao);
+                getTipo(), categoria, valor, data.format(formatter), descricao);
     }
 
     

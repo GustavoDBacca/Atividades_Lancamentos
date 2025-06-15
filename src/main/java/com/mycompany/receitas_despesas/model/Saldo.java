@@ -8,7 +8,7 @@ package com.mycompany.receitas_despesas.model;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class Saldo {
     protected double valor;

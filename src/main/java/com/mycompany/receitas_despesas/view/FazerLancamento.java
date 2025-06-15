@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class FazerLancamento extends javax.swing.JFrame {
 
@@ -230,10 +230,10 @@ public class FazerLancamento extends javax.swing.JFrame {
         //Mudando a data de String para Date
         LocalDate data = null;
         try {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             data = LocalDate.parse(datas, format);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Data inválida. Use o formato yyyy-MM-dd.");
+            JOptionPane.showMessageDialog(this, "Data inválida. Use o formato dd/MM/yyyy.");
             return;
         }
 

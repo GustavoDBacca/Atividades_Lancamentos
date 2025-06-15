@@ -6,7 +6,7 @@ package com.mycompany.receitas_despesas.view;
 
 /**
  *
- * @author T-Gamer
+ * 
  */
 public class Saldo extends javax.swing.JDialog {
 
