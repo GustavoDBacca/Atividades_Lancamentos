@@ -103,7 +103,7 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         jLabel5.setText("data de expedição:");
 
-        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa", " " }));
+        jCBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa" }));
         jCBTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBTipoActionPerformed(evt);

@@ -4,6 +4,11 @@
  */
 package com.mycompany.receitas_despesas.view;
 
+import com.mycompany.receitas_despesas.model.GestorLancamentos;
+import com.mycompany.receitas_despesas.model.Lancamentos;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.SwingUtilities;
 
 /**
@@ -12,6 +17,7 @@ import javax.swing.SwingUtilities;
  */
 public class LancamentosFeitos extends javax.swing.JDialog {
 
+    private List<Lancamentos> baseLancamentos = new ArrayList<>();
     /**
      * Creates new form LancamentosFeitos
      * @param parent
@@ -20,6 +26,10 @@ public class LancamentosFeitos extends javax.swing.JDialog {
     public LancamentosFeitos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public void setBaseLancamento(List<Lancamentos> lista){
+        this.baseLancamentos = lista;
     }
     
     public void exibirTexto(String texto){
@@ -38,6 +48,8 @@ public class LancamentosFeitos extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTArea = new javax.swing.JTextArea();
         jBFechar = new javax.swing.JButton();
+        jCBFiltro = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -53,6 +65,15 @@ public class LancamentosFeitos extends javax.swing.JDialog {
             }
         });
 
+        jCBFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa" }));
+        jCBFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBFiltroActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Filtrar por:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,7 +84,10 @@ public class LancamentosFeitos extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jBFechar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCBFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -72,7 +96,10 @@ public class LancamentosFeitos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jBFechar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBFechar)
+                    .addComponent(jCBFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(19, 19, 19))
         );
 
@@ -82,6 +109,33 @@ public class LancamentosFeitos extends javax.swing.JDialog {
     private void jBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_jBFecharActionPerformed
+
+    private void jCBFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBFiltroActionPerformed
+        String tipo = jCBFiltro.getSelectedItem().toString();
+        
+        List<Lancamentos> filtrados = baseLancamentos;
+        if (tipo.equals("Receita")){
+            
+            filtrados = baseLancamentos.stream()
+            .filter(l -> l instanceof com.mycompany.receitas_despesas.model.Receitas)
+            .sorted(Comparator.comparing(Lancamentos::getData).reversed())
+            .toList();
+            
+            
+        } else if (tipo.equals("Despesa")){
+            filtrados = baseLancamentos.stream()
+            .filter(l -> l instanceof com.mycompany.receitas_despesas.model.Despesas)
+            .sorted(Comparator.comparing(Lancamentos::getData).reversed())
+            .toList();
+ 
+        }
+         StringBuilder rec = new StringBuilder();
+            for (Lancamentos l : filtrados){
+                rec.append(l.toString()).append("\n");
+            }
+            exibirTexto(rec.toString());
+            
+    }//GEN-LAST:event_jCBFiltroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,6 +181,8 @@ public class LancamentosFeitos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBFechar;
+    private javax.swing.JComboBox<String> jCBFiltro;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTArea;
     // End of variables declaration//GEN-END:variables

@@ -151,8 +151,9 @@ public class Lancamento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Nenhum lançamento em datas passadas.");
             return;
         }
-
-        //StringBUilder para transformar os valores em String.
+        
+        dialog.setBaseLancamento(filtro);
+        
         StringBuilder sb = new StringBuilder();
         for (Lancamentos lanc : filtro) {
             sb.append(lanc.toString()).append("\n");
@@ -173,6 +174,8 @@ public class Lancamento extends javax.swing.JFrame {
             return;
         }
 
+        dialog.setBaseLancamento(lancados);
+        
         StringBuilder sb = new StringBuilder();
         for (Lancamentos l : lancados) {
             sb.append(l.toString()).append("\n");

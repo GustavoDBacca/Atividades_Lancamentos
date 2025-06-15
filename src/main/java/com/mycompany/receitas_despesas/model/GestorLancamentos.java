@@ -32,6 +32,28 @@ public class GestorLancamentos {
     public static ArrayList<Lancamentos> getTodos() {
         return lista;
     }
+    
+    public static ArrayList<Lancamentos> filtrarReceitas(){   
+        ArrayList<Lancamentos> filtro = new ArrayList<>();
+        
+        for (Lancamentos l : lista){
+            if (l.getTipo().equals("receita")){
+                filtro.add(l);
+            } 
+        }     
+        return filtro;
+    }
+    
+    public static ArrayList<Lancamentos> filtrarDespesas(){
+        ArrayList<Lancamentos> filtro = new ArrayList<>();
+        
+        for (Lancamentos l : lista){
+            if (l.getTipo().equals("despesa")){
+                filtro.add(l);
+            } 
+        }     
+        return filtro;
+    }
 
     public static ArrayList<Lancamentos> getDatasPassadas() {
 
