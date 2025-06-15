@@ -77,7 +77,7 @@ public class GestorLancamentos {
 
     public static void carregarCSV(File arquivo) {
         lista.clear();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try (Scanner scan = new Scanner(arquivo)) {
 
             if (scan.hasNextLine()) {
@@ -99,7 +99,7 @@ public class GestorLancamentos {
                 String categoria = partes[4];
 
                 try {
-                    valor = Double.parseDouble(partes[2]);
+                    valor = Double.parseDouble(partes[2].replace(",", "."));
                 } catch (NumberFormatException e) {
                     System.err.println("Valor inválido na linha: " + linha);
                     continue;

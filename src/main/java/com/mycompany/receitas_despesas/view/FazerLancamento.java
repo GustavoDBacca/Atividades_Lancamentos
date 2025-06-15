@@ -253,7 +253,6 @@ public class FazerLancamento extends javax.swing.JFrame {
             }
         }
 
-        GestorLancamentos.adicionar(lancamento);
         if (arquivoCSV != null) {
             boolean arquivoNovo = !arquivoCSV.exists();
 
@@ -273,6 +272,7 @@ public class FazerLancamento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Escolha um arquivo primeiro com o botão 'Caminho Arquivo'");
             return;
         }
+        GestorLancamentos.adicionar(lancamento);
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
 
