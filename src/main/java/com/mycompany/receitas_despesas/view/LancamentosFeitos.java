@@ -65,7 +65,7 @@ public class LancamentosFeitos extends javax.swing.JDialog {
             }
         });
 
-        jCBFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa" }));
+        jCBFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receita", "Despesa", "Todos" }));
         jCBFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBFiltroActionPerformed(evt);
@@ -128,7 +128,14 @@ public class LancamentosFeitos extends javax.swing.JDialog {
             .sorted(Comparator.comparing(Lancamentos::getData).reversed())
             .toList();
  
+        } else if (tipo.equals("Todos")){
+            filtrados = baseLancamentos.stream()
+            .filter(l -> l instanceof com.mycompany.receitas_despesas.model.Lancamentos)
+            .sorted(Comparator.comparing(Lancamentos::getData).reversed())
+            .toList();
         }
+        
+        
          StringBuilder rec = new StringBuilder();
             for (Lancamentos l : filtrados){
                 rec.append(l.toString()).append("\n");
