@@ -1,55 +1,54 @@
 package com.mycompany.receitas_despesas.model;
 
+import org.junit.jupiter.api.*;
 import java.time.LocalDate;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class GestorLancamentosTest {
-    private GestorLancamentos gestor;
-    private final LocalDate data = LocalDate.of(2023, 6, 1);
 
     @BeforeEach
-    void setUp() {
-        gestor = new GestorLancamentos();
+    public void setup() {
+        GestorLancamentos.getTodos().clear();
     }
 
     @Test
-    void testCalcularSaldoComReceitas() {
-        gestor.adicionar(new Receitas("Salário", "Mensal", 3000.0, data));
-        gestor.adicionar(new Receitas("Bônus", "Performance", 500.0, data));
-        
-        assertEquals(3500.0, gestor.calcularSaldo(), 0.001);
+    public void testAdicionar() {
+        Receitas r = new Receitas("SALARIO", "Salário", 2500, LocalDate.now());
+        GestorLancamentos.adicionar(r);
+        assertEquals(1, GestorLancamentos.getTodos().size());
     }
 
     @Test
-    void testCalcularSaldoComDespesas() {
-        gestor.adicionar(new Despesas("Aluguel", "Apartamento", 1200.0, data));
-        gestor.adicionar(new Despesas("Transporte", "Combustível", 200.0, data));
-        
-        assertEquals(-1400.0, gestor.calcularSaldo(), 0.001);
+    public void testFiltrarReceitas() {
+        GestorLancamentos.adicionar(new Receitas("SALARIO", "Salário", 2500, LocalDate.now()));
+        GestorLancamentos.adicionar(new Despesas("ALIMENTOS", "Mercado", 300, LocalDate.now()));
+        List<Lancamentos> receitas = GestorLancamentos.filtrarReceitas();
+        assertEquals(1, receitas.size());
+        assertEquals("receita", receitas.get(0).getTipo());
     }
 
     @Test
-    void testCalcularSaldoMisto() {
-        gestor.adicionar(new Receitas("Salário", "Mensal", 3000.0, data));
-        gestor.adicionar(new Despesas("Aluguel", "Apartamento", 1200.0, data));
-        gestor.adicionar(new Despesas("Alimentação", "Supermercado", 350.0, data));
-        gestor.adicionar(new Receitas("Freelance", "Projeto", 800.0, data));
-        
-        assertEquals(2250.0, gestor.calcularSaldo(), 0.001);
+    public void testFiltrarDespesas() {
+        GestorLancamentos.adicionar(new Receitas("SALARIO", "Salário", 2500, LocalDate.now()));
+        GestorLancamentos.adicionar(new Despesas("ALIMENTOS", "Mercado", 300, LocalDate.now()));
+        List<Lancamentos> despesas = GestorLancamentos.filtrarDespesas();
+        assertEquals(1, despesas.size());
+        assertEquals("despesa", despesas.get(0).getTipo());
     }
 
     @Test
-    void testGetTodosRetornaListaCorreta() {
-        Receitas r = new Receitas("Salário", "Mensal", 3000.0, data);
-        Despesas d = new Despesas("Aluguel", "Apartamento", 1200.0, data);
-        
-        gestor.adicionar(r);
-        gestor.adicionar(d);
-        
-        assertEquals(2, gestor.getTodos().size());
-        assertTrue(gestor.getTodos().contains(r));
-        assertTrue(gestor.getTodos().contains(d));
+    public void testCalcularSaldo() {
+        GestorLancamentos.adicionar(new Receitas("SALARIO", "Salário", 2500, LocalDate.now()));
+        GestorLancamentos.adicionar(new Despesas("ALIMENTOS", "Mercado", 300, LocalDate.now()));
+        assertEquals(2200.0, GestorLancamentos.calcularSaldo());
+    }
+
+    @Test
+    public void testGetSaldo() {
+        GestorLancamentos.adicionar(new Receitas("SALARIO", "Salário", 1000, LocalDate.now()));
+        GestorLancamentos.adicionar(new Despesas("TRANSPORTE", "Uber", 200, LocalDate.now()));
+        assertEquals(800.0, GestorLancamentos.getSaldo());
     }
 }
