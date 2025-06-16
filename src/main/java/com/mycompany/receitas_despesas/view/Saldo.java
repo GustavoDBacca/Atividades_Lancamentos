@@ -19,11 +19,11 @@ public class Saldo extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
+    //Defini o valor do saldo até a data atual.
     public void valorData(String valor){
         jLSaldoData.setText(valor);
     }
-    
+    //Defini o valor do saldo total.
     public void valorTotal(String valor){
         jLSaldoTotal.setText(valor);
     }

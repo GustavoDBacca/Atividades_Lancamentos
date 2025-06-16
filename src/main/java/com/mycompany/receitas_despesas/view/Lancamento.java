@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * 
+ *
  */
 public class Lancamento extends javax.swing.JFrame {
 
@@ -141,6 +141,7 @@ public class Lancamento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Busca lançamentos com datas anteriores à atual, ordena por data decrescente..
     private void jBDtAtualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDtAtualActionPerformed
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
 
@@ -151,9 +152,9 @@ public class Lancamento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Nenhum lançamento em datas passadas.");
             return;
         }
-        
+
         dialog.setBaseLancamento(filtro);
-        
+
         StringBuilder sb = new StringBuilder();
         for (Lancamentos lanc : filtro) {
             sb.append(lanc.toString()).append("\n");
@@ -163,19 +164,20 @@ public class Lancamento extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_jBDtAtualActionPerformed
 
+    //Lista todos os lançamentos cadastrados, ordenados da data mais recente para a mais antiga.
     private void jBSemDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSemDtActionPerformed
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
 
         //Pega todos os lançamentos feitos!
         List<Lancamentos> lancados = GestorLancamentos.getTodos().stream().sorted(Comparator.comparing(Lancamentos::getData).reversed()).toList();
-        
+
         if (lancados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum lançamento feito.");
             return;
         }
 
         dialog.setBaseLancamento(lancados);
-        
+
         StringBuilder sb = new StringBuilder();
         for (Lancamentos l : lancados) {
             sb.append(l.toString()).append("\n");
@@ -185,7 +187,8 @@ public class Lancamento extends javax.swing.JFrame {
 
         dialog.setVisible(true);
     }//GEN-LAST:event_jBSemDtActionPerformed
-
+    
+    //Abre a janela de cadastro e atualiza as categorias disponíveis antes de mostrar.
     private void jBLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLancamentoActionPerformed
         FazerLancamento lancar = new FazerLancamento();
 
@@ -194,7 +197,7 @@ public class Lancamento extends javax.swing.JFrame {
         lancar.setVisible(true);
 
     }//GEN-LAST:event_jBLancamentoActionPerformed
-
+    //Calcula e exibe o saldo total de todos os lançamentos e o saldo apenas de lançamentos anteriores à data atual.
     private void jBConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConsultarActionPerformed
         double saldoTotal = GestorLancamentos.getSaldo();
         double saldoData = GestorLancamentos.getSaldoDataPassadas();
@@ -206,7 +209,7 @@ public class Lancamento extends javax.swing.JFrame {
 
         saldo.setVisible(true);
     }//GEN-LAST:event_jBConsultarActionPerformed
-
+    //Abre uma janela para o usuário selecionar um arquivo .csv e carrega os lançamentos do arquivo para o sistema.
     private void jBtCarregarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCarregarArquivoActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Escolha o arquivo CSV para carregar");
@@ -222,7 +225,7 @@ public class Lancamento extends javax.swing.JFrame {
         }
         atualizarTextoLancamentosFeitos();
     }//GEN-LAST:event_jBtCarregarArquivoActionPerformed
-
+    //Atualiza o conteúdo da janela de lançamentos com todos os lançamentos atualmente carregados.
     public void atualizarTextoLancamentosFeitos() {
         LancamentosFeitos dialog = new LancamentosFeitos(this, true);
         StringBuilder sb = new StringBuilder();
@@ -235,6 +238,7 @@ public class Lancamento extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    //Ponto de entrada da aplicação.
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

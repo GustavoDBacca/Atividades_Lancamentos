@@ -24,21 +24,20 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * 
+ *
  */
 public class FazerLancamento extends javax.swing.JFrame {
 
     String tipo;
     private File arquivoCSV = null;
 
-    /**
-     * Creates new form FazerLancamento
-     */
+    //Inicializa a janela e os componentes gráficos. Atualiza as categorias conforme o tipo de lançamento selecionado ("Receita" ou "Despesa").
     public FazerLancamento() {
         initComponents();
         atualizarCategorias();
     }
 
+    //Atualiza as categoria com base no tipo de lançamento selecionado.
     public void atualizarCategorias() {
         tipo = jCBTipo.getSelectedItem().toString();
         jCBCategoria.removeAllItems();
@@ -214,11 +213,12 @@ public class FazerLancamento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Fecha a janela quando o botão "Fechar" é clicado.
     private void jBtFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtFecharActionPerformed
         dispose();
     }//GEN-LAST:event_jBtFecharActionPerformed
 
+    //Executa o lançamento financeiro com os dados preenchidos.
     private void jBtLancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLancarActionPerformed
 
         String tipo = jCBTipo.getSelectedItem().toString();
@@ -253,7 +253,7 @@ public class FazerLancamento extends javax.swing.JFrame {
                 return;
             }
         }
-
+        // Cria o arquivo com cabeçalho se ele ainda não existir
         if (arquivoCSV != null) {
             boolean arquivoNovo = !arquivoCSV.exists();
 
@@ -276,7 +276,7 @@ public class FazerLancamento extends javax.swing.JFrame {
         GestorLancamentos.adicionar(lancamento);
         //Só para testes!
         JOptionPane.showMessageDialog(this, "Lançamento registrado como: " + lancamento.getTipo());
-        
+
         DecimalFormat dec = new DecimalFormat("0.00");
         JOptionPane.showMessageDialog(this, "Saldo: " + dec.format(GestorLancamentos.getSaldo()));
 
@@ -285,18 +285,17 @@ public class FazerLancamento extends javax.swing.JFrame {
         jTData.setText("");
         jTADesc.setText("");
         jCBTipo.setSelectedIndex(0);
-        
-        
+
 
     }//GEN-LAST:event_jBtLancarActionPerformed
-
+    //Atualiza a lista de categorias conforme o novo tipo selecionado.
     private void jCBTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBTipoActionPerformed
         atualizarCategorias();
         if (jCBCategoria.getSelectedItem() != null) {
             jCBCategoria.getSelectedItem().toString();
         }
     }//GEN-LAST:event_jCBTipoActionPerformed
-
+    //Abre um diálogo para o usuário escolher onde salvar o arquivo CSV.
     private void jBtArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtArquivoActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Escolha onde salvar o arquivo");
@@ -319,8 +318,6 @@ public class FazerLancamento extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtArquivo;

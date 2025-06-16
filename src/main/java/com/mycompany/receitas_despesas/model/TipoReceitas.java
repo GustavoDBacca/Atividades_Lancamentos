@@ -5,10 +5,7 @@
  */
 package com.mycompany.receitas_despesas.model;
 
-/**
- *
- * 
- */
+//Conjunto fixo de constantes.
 public enum TipoReceitas {
     SALARIO, DECIMO_TERCEIRO, FERIAS, OUTRA_RECEITA;
 }

@@ -27,11 +27,11 @@ public class LancamentosFeitos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
+    //Define a lista de lançamentos (receitas e despesas) que será usada para exibição e filtragem.
     public void setBaseLancamento(List<Lancamentos> lista){
         this.baseLancamentos = lista;
     }
-    
+    //Usado para mostrar os lançamentos filtrados.
     public void exibirTexto(String texto){
         jTArea.setText(texto);
     }
@@ -105,11 +105,11 @@ public class LancamentosFeitos extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Fecha a janela quando o botão "Fechar" é clicado.
     private void jBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_jBFecharActionPerformed
-
+    //Filtra os lançamentos conforme a opção selecionada(Receita, Despesa ou Todos).
     private void jCBFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBFiltroActionPerformed
         String tipo = jCBFiltro.getSelectedItem().toString();
         

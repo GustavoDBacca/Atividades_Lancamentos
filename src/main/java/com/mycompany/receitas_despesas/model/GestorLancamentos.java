@@ -15,15 +15,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * 
- */
+//Classe onde são realizadas diversas funções relacionadas ao lançamento.
 public class GestorLancamentos {
     
-
+    //Armazena todos os lançamentos (receitas e despesas) adicionados ao sistema em memória.
     private static final ArrayList<Lancamentos> lista = new ArrayList<>();
 
+    //Adiciona um novo lancamentos à lista.
     public static void adicionar(Lancamentos l) {
         lista.add(l);
     }
@@ -33,6 +31,7 @@ public class GestorLancamentos {
         return lista;
     }
     
+    //Retorna apenas os lançamentos do tipo "receita".
     public static ArrayList<Lancamentos> filtrarReceitas(){   
         ArrayList<Lancamentos> filtro = new ArrayList<>();
         
@@ -44,6 +43,7 @@ public class GestorLancamentos {
         return filtro;
     }
     
+    //Retorna apenas os lançamentos do tipo "despesa".
     public static ArrayList<Lancamentos> filtrarDespesas(){
         ArrayList<Lancamentos> filtro = new ArrayList<>();
         
@@ -55,6 +55,7 @@ public class GestorLancamentos {
         return filtro;
     }
 
+    //Retorna os lançamentos cuja data é anterior à data atual.
     public static ArrayList<Lancamentos> getDatasPassadas() {
 
         ArrayList<Lancamentos> filtrados = new ArrayList<>();
@@ -65,10 +66,10 @@ public class GestorLancamentos {
                 filtrados.add(l);
             }
         }
-
         return filtrados;
     }
 
+    //Calcula o saldo de lançamentos passados(Considera apenas lançamentos com data anterior à atual).
     public static double getSaldoDataPassadas() {
 
         double totalDatasPassadas = 0;
@@ -82,6 +83,7 @@ public class GestorLancamentos {
         return totalDatasPassadas;
     }
 
+    //Salva o lançamento em um arquivo .csv.
     public static void salvarCSV(Lancamentos lancamento, File caminho) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
@@ -99,6 +101,7 @@ public class GestorLancamentos {
         }
     }
 
+    //Lê todos os lançamentos de um arquivo .csv e os adiciona à lista.
     public static void carregarCSV(File arquivo) {
         lista.clear();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -151,6 +154,7 @@ public class GestorLancamentos {
         }
     }
 
+    //Calcula o saldo total.
     public static double calcularSaldo() {
         double saldo = 0;
         for (Lancamentos l : lista) {
@@ -163,6 +167,7 @@ public class GestorLancamentos {
         return saldo;
     }
 
+    //Gera uma string com todos os lançamentos da lista, um por linha.
     public static String listarLancamentos() {
         StringBuilder sb = new StringBuilder();
         for (Lancamentos l : lista) {
@@ -171,6 +176,7 @@ public class GestorLancamentos {
         return sb.toString();
     }
 
+    //Retorna o valor calculado por calcularSaldo().
     public static double getSaldo() {
         double saldo = calcularSaldo();
         return saldo;
